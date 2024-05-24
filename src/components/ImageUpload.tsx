@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 
 import { Button } from './ui/button';
 import {
@@ -9,12 +9,14 @@ import {
 } from '@/actions/cloudinary';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { useImageContext } from '@/context/ImageContext';
 
 const ImageUpload: React.FC = () => {
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { images, setImages } = useImageContext();
 
   const previewImage = (file: File) => {
     const reader = new FileReader();
@@ -86,6 +88,11 @@ const ImageUpload: React.FC = () => {
             const response = await saveImageURLToDB({
               secure_url: data?.secure_url,
             });
+            if (response?.data) {
+              setImages((prev) =>
+                prev ? [response?.data, ...prev] : [response?.data]
+              );
+            }
             setLoading(false);
             toast(response?.message);
           }

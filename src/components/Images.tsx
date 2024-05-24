@@ -1,9 +1,9 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ImageCard from './ImageCard';
-import { Image } from '@/context/ImageContext';
+import { Image, useImageContext } from '@/context/ImageContext';
 import { useInView } from 'react-intersection-observer';
-import { getImages } from '@/actions/imageActions';
+import { getImages, getImagesCount } from '@/actions/imageActions';
 
 export default function Images({
   initialImages,
@@ -12,7 +12,8 @@ export default function Images({
 }) {
   const [page, setPage] = useState(1);
   const [ref, inview] = useInView();
-  const [images, setImages] = useState<Image[]>([]);
+  //const [images, setImages] = useState<Image[] | null>(initialImages);
+  const { images, setImages } = useImageContext();
 
   const loadMoreImages = async () => {
     const next = page + 1;
@@ -24,16 +25,19 @@ export default function Images({
   };
 
   useEffect(() => {
-    if (initialImages) {
-      setImages(initialImages);
-    }
-  }, []);
-
-  useEffect(() => {
     if (inview) {
       loadMoreImages();
     }
   }, [inview]);
+
+  useEffect(() => {
+    setImages(initialImages);
+  }, []);
+
+  useEffect(() => {
+    getImages({ page });
+  }, [images?.length]);
+
   return (
     <div className="flex flex-col">
       <div className="px-4 py-8 min-h-screen">

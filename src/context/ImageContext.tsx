@@ -6,8 +6,8 @@ export type Image = {
 };
 
 interface ImageContextState {
-  images: Image[];
-  setImages: React.Dispatch<React.SetStateAction<Image[]>>;
+  images: Image[] | null;
+  setImages: React.Dispatch<React.SetStateAction<Image[] | null>>;
 }
 
 interface ImageProviderProps {
@@ -17,7 +17,7 @@ interface ImageProviderProps {
 const ImageContext = createContext<ImageContextState | undefined>(undefined);
 
 export const ImageProvider: React.FC<ImageProviderProps> = ({ children }) => {
-  const [images, setImages] = useState<Image[]>([]);
+  const [images, setImages] = useState<Image[] | null>([]);
 
   return (
     <ImageContext.Provider value={{ images, setImages }}>

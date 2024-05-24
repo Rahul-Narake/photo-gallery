@@ -49,8 +49,11 @@ export async function saveImageURLToDB({ secure_url }: { secure_url: string }) {
   try {
     if (secure_url) {
       const response = await Image.create({ url: secure_url });
-      console.log(response);
-      return { message: 'Image uploaded succesfully', suceess: true };
+      return {
+        message: 'Image uploaded succesfully',
+        suceess: true,
+        data: { _id: response._id, url: response.url },
+      };
     }
   } catch (error) {
     console.log(error);
