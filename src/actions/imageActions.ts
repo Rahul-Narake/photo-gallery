@@ -18,9 +18,6 @@ export async function getImages({
       .skip(skip)
       .limit(12);
 
-    const arr = images as ImageType[];
-    console.log(arr);
-
     return images as ImageType[];
   } catch (error: any) {
     return null;

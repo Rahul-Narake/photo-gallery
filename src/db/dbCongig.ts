@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 export async function connect() {
   try {
-    console.log('connecting to db');
     await mongoose.connect(String(process.env.DATABASE_URL), {
       dbName: String(process.env.DATABASE_NAME),
     });
