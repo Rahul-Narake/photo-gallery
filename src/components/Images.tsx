@@ -4,6 +4,7 @@ import ImageCard from './ImageCard';
 import { Image, useImageContext } from '@/context/ImageContext';
 import { useInView } from 'react-intersection-observer';
 import { getImages, getImagesCount } from '@/actions/imageActions';
+import { connect } from '@/db/dbCongig';
 
 export default function Images({
   initialImages,
@@ -34,6 +35,7 @@ export default function Images({
   }, [inview]);
 
   const setTotalLength = async () => {
+    await connect();
     const total = await getImagesCount();
     setTotal(total);
   };
