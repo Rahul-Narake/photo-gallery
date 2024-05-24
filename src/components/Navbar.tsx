@@ -12,7 +12,7 @@ import ImageUpload from './ImageUpload';
 export default function Navbar() {
   return (
     <div className="flex justify-between items-center px-4 py-1 bg-gray-900 text-slate-200 w-full h-14">
-      <h1>Gallery</h1>
+      <h1 className="text-bold font-xl font-bold">Next_Gallery</h1>
       <div>
         <Dialog>
           <DialogTrigger>Upload</DialogTrigger>

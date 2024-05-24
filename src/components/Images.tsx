@@ -14,24 +14,33 @@ export default function Images({
   const [ref, inview] = useInView();
   //const [images, setImages] = useState<Image[] | null>(initialImages);
   const { images, setImages } = useImageContext();
+  const [total, setTotal] = useState(0);
 
   const loadMoreImages = async () => {
-    const next = page + 1;
-    const images = await getImages({ page: next });
-    if (images?.length) {
-      setPage(next);
-      setImages((prev) => [...(prev?.length ? prev : []), ...images]);
+    if (images && images.length < total) {
+      const next = page + 1;
+      const images = await getImages({ page: next });
+      if (images?.length) {
+        setPage(next);
+        setImages((prev) => [...(prev?.length ? prev : []), ...images]);
+      }
     }
   };
 
   useEffect(() => {
-    if (inview) {
+    if (inview && images && images?.length < total) {
       loadMoreImages();
     }
   }, [inview]);
 
+  const setTotalLength = async () => {
+    const total = await getImagesCount();
+    setTotal(total);
+  };
+
   useEffect(() => {
     setImages(initialImages);
+    setTotalLength();
   }, []);
 
   useEffect(() => {

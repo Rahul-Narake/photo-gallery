@@ -1,5 +1,6 @@
 import { getImages } from '@/actions/imageActions';
 import Images from '@/components/Images';
+import { Image } from '@/context/ImageContext';
 import { connect } from '@/db/dbCongig';
 
 export default async function Home() {
